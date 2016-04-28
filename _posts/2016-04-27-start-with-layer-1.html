@@ -1,0 +1,45 @@
+---
+layout: post
+title:  Always Start with Layer 1
+date:   2016-04-27 18:53:15 -0400
+categories: hardware arch linux wpa_supplicant
+---
+<blockquote>
+    Always Start with Layer 1
+</blockquote>
+<p>
+    Anyone who has worked with hardware, particularly in the networking world, is probably familiar with this phrase. It seems fitting that this topic would be first for my blog considering it's step 1 most of the time.
+</p>
+
+<p>
+    For those not familiar with this phrase, let me introduce you to the <a href="https://en.wikipedia.org/wiki/OSI_model">OSI 7 Layer Model</a>. The gist of the model is that most technology related communication, particularly networking, can be broken down into 7 layers. The first layer is <code>physical</code> which refers to the literal physical components that make up the communication infrastructure. Basically it's the cables, switches, NICs, etc that are part of your network.
+</p>
+<p>
+    Have you ever spent time working on an issue for hours only to find that it was just a bad cable? That's exactly a time when you should have checked Layer 1 first.
+</p>
+<h2>My Own Layer 1 Incident</h2>
+<p>
+    I work remotely for a regional telecom in the Great Lakes area. Often I'm at coffee shops with throttled wifi or other places with flaky connections that make my work difficult. Thankfully, I still have a grandfathered unlimited data plan through Verizon with tethering. (Okay, I don't actually <b>pay</b> for tethering but the FCC says I should be able to use my data the way I want, right?)
+</p>
+<p>
+    My phone has been super reliable most of the time but in the past 2 weeks I started to notice that I was often dropping the connection often. It seemed to be worse in coffee shops opposed to when I was sitting at my own table at home. My tablet (a <a href="http://www.dell.com/us/p/dell-venue-11-pro-7000-7140/pd?oc=ftcwj017&ref=PD_OC">Dell Venue 11 Pro</a>)
+</p>
+<p>
+    Tonight I was at a coffee shop and I was having the same problem again. Rather than deal with it this time I decided to roll my sleeves up and dig in. Looking through the system logs (via <code>journalctl -f</code>, I run Arch Linux) I noticed intermittent authentication issues.
+</p>
+<p>
+    If you're not familiar with <code>WPA2</code> (a wifi security protocol), it has a rekey interval to keep nasty hackers from getting into your connection. The theory is that if you rekey often enough in the off chance someone does crack your hash it'll be too late since you'll be on a new one by then (heavily paraphrased). It was during these rekeying operations that my laptop wouldn't always rekey properly and would drop the connection. Sometimes it would even ask for the PSK (password) again.
+</p>
+<p>
+    There were plenty of results to sort through when Googling <code>wpa_supplicant reason=4 ath9k</code> including some suggestions to drop back to an older version of wpa_supplicant. Nothing seemed to solve the problem and I was on the verge of buying a new mini PCIe wireless card for my laptop (a <a href="http://www.dell.com/us/business/p/precision-m4800-workstation/pd">Dell Precision M4800</a>). During all of my testing I had a simple <code>ping 8.8.8.8</code> (a Google DNS server) running to see if traffic was flowing.
+</p>
+<p>
+    Just then I received a text from a friend and picked up my phone. As soon as I did all of my pings started to get replies. Thinking it was a coincidence I set my phone back down and the replies stopped. I picked up my phone again and everything started working.
+</p>
+<p>
+    A few more minutes of playing with my phone in different positions and I found that there's a wifi dead spot on my laptop. That 2 week timeframe I mentioned before? I bought a new USB cable 2 weeks ago that was only 8 inches so I could have my phone plugged into my laptop while it was tethered without having 4 extra feet of cord hanging around. With the shorter core I started placing my phone on the left of my laptop (instead or wrapping it around the back) so it wasn't in the way of my mouse
+</p>
+<h2>Closing Thoughts</h2>
+<p>
+    I'm once again reminded of how Layer 1 can be so tricky to find becuase they're so simple. Although the cable itself isn't to blame it does highlight how even the smallest changes can cause unintended consequences. Remember- always start with layer 1.
+</p>
